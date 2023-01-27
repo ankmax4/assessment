@@ -1,5 +1,7 @@
 /*
 Create the c++ script to get .so versions and the name of the library
+To replicate the result, you can create a folder named "libraries" in the same directory as the c++ code and put some .so files in it and then run the above c++ code.
+The program will extract the name and version of the so files and write them to the "output.txt" file.   provide complete program in a singe cpp file
 */
 
 #include <iostream>
