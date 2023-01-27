@@ -1,0 +1,41 @@
+/*
+Create the c++ script to get .so versions and the name of the library
+*/
+
+#include <iostream>
+#include <regex>
+#include <fstream>
+#include <dirent.h>
+using namespace std;
+
+vector<string> get_files(string path) {
+    vector<string> files;
+    DIR* dir = opendir(path.c_str());
+    if(dir) {
+        dirent* ent;
+        while((ent = readdir(dir)) != NULL) {
+            files.push_back(ent->d_name);
+        }
+        closedir(dir);
+    }
+    return files;
+}
+
+int main() {
+    string path = "libraries";
+    vector<string> files = get_files(path);
+    regex pattern("lib(.*)\\.so\\.(.*)");
+    ofstream output_file("output.txt");
+
+    for(auto file : files) {
+        if(regex_search(file, pattern)) {
+            auto name = regex_replace(file, pattern, "$1");
+            auto version = regex_replace(file, pattern, "$2");
+            output_file << name << " " << version << endl;
+        }
+    }
+
+    output_file.close();
+    cout << "Output written to output.txt" << endl;
+    return 0;
+}
